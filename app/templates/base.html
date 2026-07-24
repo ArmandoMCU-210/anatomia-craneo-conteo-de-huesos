@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Craneo Interactivo{% endblock %} · Anatomía del Cráneo</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+{% block head %}{% endblock %}
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="{{ url_for('main.index') }}">
+    <span class="brand-icon" aria-hidden="true">🦴</span>
+    <span>Anatomía del Cráneo</span>
+  </a>
+  <nav class="topnav">
+    <a href="{{ url_for('main.index') }}">Inicio</a>
+    <a href="{{ url_for('main.glossary') }}">Glosario</a>
+  </nav>
+</header>
+<main class="page">
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer">
+  <p>Actividad educativa de anatomía craneofacial — basada en el neurocráneo, el viscerocráneo y los lóbulos cerebrales.</p>
+</footer>
+</body>
+</html>

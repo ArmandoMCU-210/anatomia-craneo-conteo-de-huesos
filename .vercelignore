@@ -1,0 +1,8 @@
+instance/
+*.docx
+*.pdf
+__pycache__/
+*.pyc
+.venv/
+venv/
+flask_server.log

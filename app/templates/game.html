@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Actividad{% endblock %}
+{% block content %}
+<section class="game-header">
+  <div class="progress-wrap">
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <span class="progress-label"><span id="solved-count">0</span>/{{ total }} huesos ubicados</span>
+  </div>
+  <div class="timer" id="timer" aria-live="polite">00:00</div>
+</section>
+
+<p class="instructions" id="instructions">
+  Selecciona un hueso del banco de palabras y luego haz clic sobre el punto
+  correspondiente del cráneo.
+</p>
+
+<section class="game-board">
+  <div class="skull-panel">
+    <div class="skull-frame">
+      {% include "partials/skull_svg.html" %}
+    </div>
+    <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+  </div>
+
+  <aside class="word-bank-panel">
+    <h2>Banco de huesos</h2>
+    <ul class="word-bank" id="word-bank">
+      {% for b in bank %}
+      <li>
+        <button type="button" class="bone-chip" data-key="{{ b.key }}">{{ b.name }}</button>
+      </li>
+      {% endfor %}
+    </ul>
+  </aside>
+</section>
+
+<div class="modal-backdrop" id="results-backdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="results-title">
+    <h2 id="results-title">Resultados de la actividad</h2>
+
+    <div class="results-score">
+      <div class="score-circle" id="score-circle">
+        <span id="score-percent">0%</span>
+      </div>
+      <div class="results-metrics">
+        <div><strong id="result-correct">0</strong><span>Aciertos</span></div>
+        <div><strong id="result-incorrect">0</strong><span>Errores</span></div>
+        <div><strong id="result-time">0s</strong><span>Tiempo</span></div>
+      </div>
+    </div>
+
+    <p class="attempts-note" id="attempts-note"></p>
+
+    <details class="results-detail">
+      <summary>Ver detalle por hueso</summary>
+      <ul id="results-list" class="results-list"></ul>
+    </details>
+
+    <div class="modal-actions">
+      <a class="btn btn-primary" href="{{ url_for('game.start') }}">Intentar de nuevo</a>
+      <a class="btn btn-ghost" href="{{ url_for('main.index') }}">Volver al inicio</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  window.SKULL_GAME = {
+    total: {{ total }},
+    answerUrl: "{{ url_for('game.answer') }}",
+    finishUrl: "{{ url_for('game.finish') }}",
+  };
+</script>
+<script src="{{ url_for('static', filename='js/game.js') }}"></script>
+{% endblock %}

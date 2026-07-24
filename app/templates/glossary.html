@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Glosario{% endblock %}
+{% block content %}
+<section class="glossary-header">
+  <h1>Glosario de huesos del cráneo</h1>
+  <p class="lead">
+    Referencia completa de los 22 huesos del cráneo (sin contar los huesecillos del oído):
+    los ocho del neurocráneo y los catorce del viscerocráneo. Los marcados como
+    <span class="badge badge-muted">interno</span> no son visibles en la vista lateral
+    externa utilizada en la actividad.
+  </p>
+</section>
+
+{% for category, bones in grouped.items() %}
+<section class="glossary-group">
+  <h2>{{ category_labels.get(category, category) }}</h2>
+  <div class="glossary-grid">
+    {% for bone in bones %}
+    <article class="glossary-card">
+      <header>
+        <h3>{{ bone.name }}</h3>
+        {% if not bone.region_id %}<span class="badge badge-muted">interno</span>{% endif %}
+      </header>
+      <p>{{ bone.description }}</p>
+      <p class="function"><strong>Función:</strong> {{ bone.function }}</p>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<div class="modal-actions" style="margin-top: 2rem;">
+  <a class="btn btn-primary" href="{{ url_for('game.start') }}">Comenzar actividad</a>
+  <a class="btn btn-ghost" href="{{ url_for('main.index') }}">Volver al inicio</a>
+</div>
+{% endblock %}

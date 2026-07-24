@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">Neurocráneo · Viscerocráneo</p>
+    <h1>Aprende los huesos del cráneo identificando su ubicación</h1>
+    <p class="lead">
+      Coloca cada hueso en su lugar correcto sobre el esquema anatómico, recibe
+      retroalimentación inmediata y descubre tu calificación al finalizar.
+    </p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('game.start') }}">Comenzar actividad</a>
+    <a class="btn btn-ghost" href="{{ url_for('main.glossary') }}">Ver glosario de huesos</a>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <span class="stat-value">{{ attempts_count }}</span>
+        <span class="stat-label">intento{{ 's' if attempts_count != 1 else '' }} realizado{{ 's' if attempts_count != 1 else '' }} desde tu dirección IP</span>
+      </div>
+      {% if best_score is not none %}
+      <div class="stat-card">
+        <span class="stat-value">{{ best_score }}%</span>
+        <span class="stat-label">tu mejor calificación</span>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="hero-art" aria-hidden="true">
+    <span class="hero-emoji">💀</span>
+  </div>
+</section>
+
+<section class="info-grid">
+  <div class="info-card">
+    <h2>¿Cómo funciona?</h2>
+    <ol>
+      <li>Selecciona el nombre de un hueso en el banco de palabras.</li>
+      <li>Haz clic sobre el punto del cráneo donde corresponde ubicarlo.</li>
+      <li>Recibe retroalimentación inmediata: correcto o incorrecto.</li>
+      <li>Al completar los 10 huesos verás tu calificación, tiempo y aciertos.</li>
+    </ol>
+  </div>
+  <div class="info-card">
+    <h2>Contenido de la actividad</h2>
+    <p>
+      Se evalúan los huesos visibles en una vista lateral del cráneo: cinco del
+      <strong>neurocráneo</strong> (frontal, parietales, temporales, occipital y esfenoides)
+      y cinco del <strong>viscerocráneo</strong> (nasales, maxilares, mandíbula, cigomáticos y
+      lagrimales). Los huesos internos (etmoides, vómer, palatinos y cornetes) se explican en el
+      <a href="{{ url_for('main.glossary') }}">glosario</a>.
+    </p>
+  </div>
+</section>
+{% endblock %}
