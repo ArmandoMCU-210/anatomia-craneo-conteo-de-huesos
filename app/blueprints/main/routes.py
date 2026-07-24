@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, current_app, render_template, request
 
-from ...data.bones import BONES, CATEGORY_LABELS
+from ...data.bones import BONES, BONES_IMG_DIR, CATEGORY_LABELS
 from ...models import Attempt
-from ...utils import get_client_ip
+from ...utils import get_client_ip, static_asset_exists
 
 main_bp = Blueprint("main", __name__)
 
@@ -27,5 +27,9 @@ def index():
 def glossary():
     grouped = {}
     for key, bone in BONES.items():
-        grouped.setdefault(bone["category"], []).append({**bone, "key": key})
+        image_path = f"{BONES_IMG_DIR}/{bone['image']}"
+        has_image = static_asset_exists(current_app, image_path)
+        grouped.setdefault(bone["category"], []).append(
+            {**bone, "key": key, "has_image": has_image, "image_path": image_path}
+        )
     return render_template("glossary.html", grouped=grouped, category_labels=CATEGORY_LABELS)

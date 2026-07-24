@@ -193,3 +193,13 @@ CATEGORY_LABELS = {
     "neurocraneo": "Neurocráneo",
     "viscerocraneo": "Viscerocráneo",
 }
+
+# Imágenes realistas generadas por IA (fondo transparente), en app/static/img/bones/.
+# Se referencian por nombre de archivo; si el archivo aún no existe, la plantilla
+# simplemente no muestra la miniatura (ver utils.static_asset_exists).
+BONES_IMG_DIR = "img/bones"
+SKULL_IMAGE_FILENAME = "skull_full.png"
+
+for _key in BONES:
+    BONES[_key]["image"] = f"{_key}.png"
+del _key

@@ -17,6 +17,9 @@
   <div class="glossary-grid">
     {% for bone in bones %}
     <article class="glossary-card">
+      {% if bone.has_image %}
+      <img class="glossary-thumb" src="{{ url_for('static', filename=bone.image_path) }}" alt="" loading="lazy">
+      {% endif %}
       <header>
         <h3>{{ bone.name }}</h3>
         {% if not bone.region_id %}<span class="badge badge-muted">interno</span>{% endif %}

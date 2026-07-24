@@ -2,12 +2,12 @@ import json
 import random
 import time
 
-from flask import Blueprint, jsonify, render_template, request, session
+from flask import Blueprint, current_app, jsonify, render_template, request, session
 
-from ...data.bones import BONES, INTERACTIVE_KEYS, REGION_TO_KEY
+from ...data.bones import BONES, BONES_IMG_DIR, INTERACTIVE_KEYS, REGION_TO_KEY
 from ...extensions import db
 from ...models import Attempt
-from ...utils import get_client_ip
+from ...utils import get_client_ip, static_asset_exists
 
 game_bp = Blueprint("game", __name__)
 
@@ -18,7 +18,17 @@ SESSION_KEY = "skull_game"
 def start():
     keys = list(INTERACTIVE_KEYS)
     random.shuffle(keys)
-    bank = [{"key": key, "name": BONES[key]["name"]} for key in keys]
+    bank = []
+    for key in keys:
+        image_path = f"{BONES_IMG_DIR}/{BONES[key]['image']}"
+        bank.append(
+            {
+                "key": key,
+                "name": BONES[key]["name"],
+                "has_image": static_asset_exists(current_app, image_path),
+                "image_path": image_path,
+            }
+        )
 
     regions = [
         {"region_id": BONES[key]["region_id"], "x": BONES[key]["marker"][0], "y": BONES[key]["marker"][1]}

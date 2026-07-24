@@ -326,8 +326,11 @@ a { color: var(--accent); }
 .word-bank { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .bone-chip {
   width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   text-align: left;
-  padding: 0.65rem 0.9rem;
+  padding: 0.5rem 0.9rem;
   border-radius: 10px;
   border: 2px solid var(--border);
   background: var(--bg);
@@ -348,6 +351,31 @@ a { color: var(--accent); }
   text-decoration: line-through;
   cursor: default;
   pointer-events: none;
+}
+
+.bone-thumb {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  object-fit: contain;
+  border-radius: 8px;
+  background:
+    linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.06) 75%) 0 0/10px 10px,
+    linear-gradient(45deg, rgba(0,0,0,.06) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.06) 75%) 5px 5px/10px 10px,
+    var(--surface);
+}
+
+.glossary-thumb {
+  display: block;
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 0.8rem;
+  border-radius: 10px;
+  background:
+    linear-gradient(45deg, rgba(0,0,0,.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.05) 75%) 0 0/16px 16px,
+    linear-gradient(45deg, rgba(0,0,0,.05) 25%, transparent 25%, transparent 75%, rgba(0,0,0,.05) 75%) 8px 8px/16px 16px,
+    var(--bg);
 }
 
 @media (max-width: 860px) {

@@ -29,7 +29,12 @@
     <ul class="word-bank" id="word-bank">
       {% for b in bank %}
       <li>
-        <button type="button" class="bone-chip" data-key="{{ b.key }}">{{ b.name }}</button>
+        <button type="button" class="bone-chip" data-key="{{ b.key }}">
+          {% if b.has_image %}
+          <img class="bone-thumb" src="{{ url_for('static', filename=b.image_path) }}" alt="" loading="lazy">
+          {% endif %}
+          <span>{{ b.name }}</span>
+        </button>
       </li>
       {% endfor %}
     </ul>
