@@ -1,0 +1,20 @@
+<model-viewer id="skull-viewer" class="skull-viewer"
+    src="{{ url_for('static', filename=skull_model_path) }}"
+    alt="Modelo 3D del cráneo humano completo"
+    camera-controls touch-action="pan-y"
+    camera-orbit="10deg 80deg auto"
+    min-camera-orbit="auto 20deg auto"
+    max-camera-orbit="auto 160deg auto"
+    field-of-view="30deg"
+    shadow-intensity="1" exposure="1.1"
+    interaction-prompt="none"
+    loading="eager">
+  <span slot="progress-bar"></span>
+  {% for r in regions %}
+  <button type="button" class="marker-group" slot="hotspot-{{ r.region_id }}"
+          data-region="{{ r.region_id }}" data-position="{{ r.x }} {{ r.y }} {{ r.z }}"
+          aria-label="Región del cráneo">
+    <span class="marker-dot"><span class="marker-glyph">?</span></span>
+  </button>
+  {% endfor %}
+</model-viewer>

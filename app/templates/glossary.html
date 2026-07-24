@@ -17,8 +17,11 @@
   <div class="glossary-grid">
     {% for bone in bones %}
     <article class="glossary-card">
-      {% if bone.has_image %}
-      <img class="glossary-thumb" src="{{ url_for('static', filename=bone.image_path) }}" alt="" loading="lazy">
+      {% if bone.has_model %}
+      <model-viewer class="glossary-model" src="{{ url_for('static', filename=bone.model_path) }}"
+          alt="Modelo 3D de {{ bone.name }}" camera-controls touch-action="pan-y"
+          auto-rotate auto-rotate-delay="1500" rotation-per-second="18deg"
+          shadow-intensity="0.8" exposure="1.1" loading="lazy" reveal="auto"></model-viewer>
       {% endif %}
       <header>
         <h3>{{ bone.name }}</h3>

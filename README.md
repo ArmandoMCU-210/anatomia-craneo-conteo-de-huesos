@@ -1,12 +1,36 @@
 # Anatomía del Cráneo — Conteo de Huesos
 
-Aplicación web interactiva (Flask + HTML5/CSS3/JS) para aprender la ubicación de los
-huesos del cráneo. El usuario selecciona el nombre de cada hueso y lo coloca sobre el
-punto correspondiente de un esquema lateral del cráneo, recibe retroalimentación
-inmediata y, al finalizar, obtiene una calificación con aciertos, errores y tiempo total.
+Aplicación web interactiva (Flask + HTML5/CSS3/JS + [`<model-viewer>`](https://modelviewer.dev/))
+para aprender la ubicación de los huesos del cráneo sobre un **modelo 3D real** (no una
+ilustración): el usuario selecciona el nombre de cada hueso y hace clic sobre el punto
+correspondiente de un cráneo tridimensional que puede rotar y hacer zoom libremente,
+recibe retroalimentación inmediata y, al finalizar, obtiene una calificación con
+aciertos, errores y tiempo total. El glosario incluye además un modelo 3D individual
+rotable de cada uno de los 22 huesos.
 
 El contenido (huesos del neurocráneo y del viscerocráneo, y sus funciones) proviene de
 `Anatomia_Craneo_Cerebro.docx`.
+
+## Modelos 3D y atribución
+
+Los modelos 3D (`app/static/models/`) se generaron a partir de datos anatómicos reales
+(no ilustraciones ni IA generativa) de **[BodyParts3D/Anatomography](http://lifesciencedb.jp/bp3d/)**
+(The Database Center for Life Science, Japón), licenciados bajo
+**Creative Commons Attribution-Share Alike 2.1 Japón**. Como todos los huesos provienen
+del mismo modelo segmentado, encajan perfectamente al reensamblarse en `skull_full.glb`.
+
+`scripts/build_bone_models.py` descarga los STL originales, los decima (`trimesh` +
+`fast-simplification`) y exporta los `.glb` finales — útil si se quiere regenerar los
+modelos o ajustar el nivel de detalle. Requiere `pip install trimesh fast-simplification numpy`
+(no son dependencias de la app en producción, solo del script de construcción).
+
+Atribución requerida al reutilizar estos archivos:
+> BodyParts3D, (c) The Database Center for Life Science licensed under
+> CC Attribution-Share Alike 2.1 Japan
+
+Por la cláusula *ShareAlike* de esa licencia, los archivos `.glb` derivados (no el
+código de la aplicación) deben seguir compartiéndose bajo la misma licencia si se
+redistribuyen.
 
 ## Requisitos
 
@@ -27,14 +51,16 @@ La app queda disponible en `http://127.0.0.1:5000/`.
 app/
   __init__.py          # application factory
   models.py             # modelo Attempt (registro de intentos por IP)
-  utils.py               # helper para obtener la IP del cliente
-  data/bones.py          # datos de los 22 huesos (fuente: docx) + coordenadas del SVG
+  utils.py               # helper para IP del cliente y comprobar assets estáticos
+  data/bones.py          # datos de los 22 huesos (fuente: docx) + coordenadas 3D de hotspots
   blueprints/
     main/routes.py       # página de inicio y glosario
     game/routes.py       # inicio de actividad y endpoints de juego (responder/finalizar)
-  templates/              # index, game, glossary + partial del SVG del cráneo
+  templates/              # index, game, glossary + partial del <model-viewer> del cráneo
   static/css, static/js   # estilos responsive y lógica de interacción
-config.py                # configuración (SECRET_KEY, base de datos SQLite)
+  static/models/          # cráneo_full.glb + models/bones/<clave>.glb (ver scripts/build_bone_models.py)
+scripts/build_bone_models.py  # descarga y procesa los modelos 3D desde BodyParts3D
+config.py                # configuración (SECRET_KEY, base de datos)
 run.py                    # punto de entrada
 ```
 

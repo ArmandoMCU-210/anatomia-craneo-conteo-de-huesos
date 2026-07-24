@@ -7,3 +7,4 @@ instance/
 .env
 .vercel/
 flask_server.log
+.cache/

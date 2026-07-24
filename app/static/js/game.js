@@ -64,9 +64,8 @@
     const marker = document.querySelector(`.marker-group[data-region="${regionId}"]`);
     marker.classList.add("solved");
     marker.querySelector(".marker-glyph").textContent = "✓";
-    const title = document.createElementNS("http://www.w3.org/2000/svg", "title");
-    title.textContent = boneName;
-    marker.appendChild(title);
+    marker.setAttribute("aria-label", boneName);
+    marker.title = boneName;
   }
 
   function flashWrong(regionId) {
@@ -119,12 +118,6 @@
 
   document.querySelectorAll(".marker-group").forEach((marker) => {
     marker.addEventListener("click", () => handleMarkerClick(marker));
-    marker.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        handleMarkerClick(marker);
-      }
-    });
   });
 
   function finishGame() {

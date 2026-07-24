@@ -4,7 +4,7 @@ import time
 
 from flask import Blueprint, current_app, jsonify, render_template, request, session
 
-from ...data.bones import BONES, BONES_IMG_DIR, INTERACTIVE_KEYS, REGION_TO_KEY
+from ...data.bones import BONES, INTERACTIVE_KEYS, REGION_TO_KEY, SKULL_MODEL_FILENAME
 from ...extensions import db
 from ...models import Attempt
 from ...utils import get_client_ip, static_asset_exists
@@ -18,20 +18,15 @@ SESSION_KEY = "skull_game"
 def start():
     keys = list(INTERACTIVE_KEYS)
     random.shuffle(keys)
-    bank = []
-    for key in keys:
-        image_path = f"{BONES_IMG_DIR}/{BONES[key]['image']}"
-        bank.append(
-            {
-                "key": key,
-                "name": BONES[key]["name"],
-                "has_image": static_asset_exists(current_app, image_path),
-                "image_path": image_path,
-            }
-        )
+    bank = [{"key": key, "name": BONES[key]["name"]} for key in keys]
 
     regions = [
-        {"region_id": BONES[key]["region_id"], "x": BONES[key]["marker"][0], "y": BONES[key]["marker"][1]}
+        {
+            "region_id": BONES[key]["region_id"],
+            "x": BONES[key]["marker3d"][0],
+            "y": BONES[key]["marker3d"][1],
+            "z": BONES[key]["marker3d"][2],
+        }
         for key in INTERACTIVE_KEYS
     ]
 
@@ -44,7 +39,16 @@ def start():
     }
     session.modified = True
 
-    return render_template("game.html", bank=bank, regions=regions, total=len(INTERACTIVE_KEYS))
+    has_skull_model = static_asset_exists(current_app, SKULL_MODEL_FILENAME)
+
+    return render_template(
+        "game.html",
+        bank=bank,
+        regions=regions,
+        total=len(INTERACTIVE_KEYS),
+        has_skull_model=has_skull_model,
+        skull_model_path=SKULL_MODEL_FILENAME,
+    )
 
 
 @game_bp.route("/api/juego/responder", methods=["POST"])
