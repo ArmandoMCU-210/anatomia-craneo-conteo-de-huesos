@@ -87,6 +87,18 @@ a { color: var(--accent); }
   color: var(--ink);
 }
 .brand-icon { font-size: 1.4rem; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.25; }
+.brand-title { font-weight: 700; font-size: 1.1rem; }
+.brand-teacher {
+  font-weight: 600;
+  font-size: 0.72rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .brand-teacher { white-space: normal; }
+}
 
 .topnav { display: flex; gap: 1.25rem; }
 .topnav a {
