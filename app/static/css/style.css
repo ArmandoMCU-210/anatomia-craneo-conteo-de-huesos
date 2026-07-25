@@ -69,6 +69,7 @@ a { color: var(--accent); }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem 1rem;
   padding: 1rem 1.5rem;
   background: var(--surface);
   border-bottom: 1px solid var(--border);
@@ -96,8 +97,11 @@ a { color: var(--accent); }
   white-space: nowrap;
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
+  .topbar { flex-wrap: wrap; row-gap: 0.4rem; }
+  .brand { flex: 1 1 100%; }
   .brand-teacher { white-space: normal; }
+  .topnav { flex: 1 1 100%; justify-content: flex-start; gap: 1rem; padding-left: calc(1.4rem + 0.5rem); }
 }
 
 .topnav { display: flex; gap: 1.25rem; }
